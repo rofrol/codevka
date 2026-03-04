@@ -1,6 +1,6 @@
 # Codevka
 
-My customization of [Iosevka font](https://github.com/be5invis/Iosevka).
+My customization of [Iosevka font](https://github.com/be5invis/Iosevka) based on ss09 Source Code Pro variant.
 
 - No ligatures, no italics, no bold.
 - Nerd font patched. Needed for vscode. Otherwise you can fallback to <https://github.com/ryanoasis/nerd-fonts/releases/latest/download/NerdFontsSymbolsOnly.tar.xz>.
