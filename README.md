@@ -7,6 +7,8 @@ My customization of [Iosevka font](https://github.com/be5invis/Iosevka) based on
 - All icons with `--complete`.
 - weights: Regular for terminal, SemiLight for vscode
 - widths: Extended to match wide characters of Source Code Pro
+- files: CodevkaNerdFont-Extended.ttf and CodevkaNerdFont-ExtendedSemiLight.ttf
+
 ![](screenshot.png)
 
 ## Naming
