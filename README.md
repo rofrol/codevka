@@ -11,6 +11,18 @@ My customization of <https://github.com/Iosevka-Mayukai/Iosevka-Mayukai> font.
 
 ![](screenshot.png)
 
+## Naming
+
+If your font name in private-build-plans.toml contains string `SourceCode`, it will be replaced with `SauceCode`.
+
+## spacing: term vs fixed
+
+Terminal (“Term”)：A narrower variant focusing terminal uses. Arrows and geometric symbols will be narrow to follow typical terminal usages.
+
+Fixed: Exact monospace font without ligatures and wide glyphs. Since some environments cannot interpret Iosevka or Iosevka Term as monospace, and have difficulties with ligatures included, you can use Iosevka Fixed as an alternative.
+
+<https://github.com/be5invis/Iosevka/blob/main/doc/PACKAGE-LIST.md>
+
 ## Other fonts
 
 - <https://github.com/saumyajyoti/MiosevkaNerdFont>
@@ -35,6 +47,8 @@ git clone --depth 1 https://github.com/be5invis/Iosevka.git
 cd Iosevka
 npm install
 cd ..
+# Currently downloaded FontPatcher from master, because there was fix but no new release:
+# curl -OJNL https://github.com/ryanoasis/nerd-fonts/raw/refs/heads/master/FontPatcher.zip
 curl -OJNL https://github.com/ryanoasis/nerd-fonts/releases/latest/download/FontPatcher.zip
 unzip FontPatcher.zip -d FontPatcher
 rm FontPatcher.zip

@@ -1,0 +1,105 @@
+# https://github.com/be5invis/Iosevka/blob/main/private-build-plans.sample.toml
+
+### See https://github.com/be5invis/Iosevka/blob/master/doc/custom-build.md for comprehensive
+### documentation of the options in this file
+
+# https://github.com/Iosevka-Mayukai/Iosevka-Mayukai
+# https://github.com/Iosevka-Mayukai/HowToBuild/blob/master/iosevka-v19/private-build-plan-mayukai-original-term.toml
+
+[buildPlans.Codevka]      # <iosevka-custom> is your plan name
+family = "Codevka"        # Font menu family name
+spacing = "term"
+serifs = "Sans"
+noCvSs = true
+exportGlyphNames = false
+buildTextureFeature = true
+
+[buildPlans.Codevka.namingOverride]
+copyright = 'Copyright 2025-{{currentYear}}, Customizations by Roman Frołow'
+licence = '''This font software is licenced under the SIL Open Font Licence, Version 1.1. This licence is available with a FAQ at: http://scripts.sil.org/OFL. This font software is distributed on an 'AS IS' basis, without warranties or conditions of any kind, either express or implied. See the SIL Open Font licence for the specific language, permissions and limitations governing your use of this font software.'''
+manufacturer = 'Roman Frołow (customizations)'
+designer = 'Roman Frołow (customizations)'
+urlVendor = 'https://github.com/rofrol/iosevka-rofrol'
+urlDesigner = 'https://github.com/rofrol/iosevka-rofrol'
+description = 'A clean and lightweight customization of Iosevka.'
+
+[buildPlans.Codevka.variants]
+inherits = "ss09"
+
+[buildPlans.Codevka.metricOverride]
+cap = 670 # default 735, Height of H.
+ascender = 710 # default 735, Height of b.
+xHeight = 480 # default 520, Height of x.
+# leading = 1260
+leading = 1000 # Default line height times 1000.
+descenderPad = 0 # Additional line height, added to descender.
+sb = 80 # (varies, 60 for Regular) Width of common side-bearings. https://www.typedesignclass.com/resources/spacing-and-kerning-basics
+# sb = 'default_sb * 1.0625 + 15'
+# dotSize = 'blend(weight, [100, 50], [400, 125], [900, 180])'
+
+# Optional; Configure single character's variant
+[buildPlans.Codevka.variants.design]
+f = "flat-hook-serifless"
+t = "flat-hook-short-neck"
+six = "open-contour"
+nine = "open-contour"
+
+# End variant section
+###################################################################################################
+
+###################################################################################################
+# Override default building weights
+# When buildPlans.<plan name>.weights is absent, all weights would built and mapped to
+# default values.
+# IMPORTANT : Currently "menu" and "css" property only support numbers between 0 and 1000.
+#             and "shape" properly only supports number between 100 and 900 (inclusive).
+#             If you decide to use custom weights you have to define all the weights you
+#             plan to use otherwise they will not be built.
+
+
+# For vscode
+[buildPlans.Codevka.weights.SemiLight]
+shape = 350  # Weight for glyph shapes.
+menu  = 350  # Weight for the font's names.
+css   = 350  # Weight for webfont CSS.
+
+# For kitty
+[buildPlans.Codevka.weights.Regular]
+shape = 450  # Weight for glyph shapes.
+menu  = 450  # Weight for the font's names.
+css   = 450  # Weight for webfont CSS.
+
+# End weight section
+###################################################################################################
+
+###################################################################################################
+# Override default building slope sets
+# When this section is absent, all slopes would be built.
+
+[buildPlans.Codevka.slopes.Upright]
+angle = 0             # Angle in degrees. Valid range [0, 15]
+shape = "upright"     # Slope grade used for shape selection.  `upright` | `oblique` | `italic`
+menu  = "upright"     # Slope grade used for naming.           `upright` | `oblique` | `italic`
+css   = "normal"      # Slope grade used for webfont CSS.      `normal`  | `oblique` | `italic`
+
+# End slope section
+###################################################################################################
+
+###################################################################################################
+# Override default building widths
+# When buildPlans.<plan name>.widths is absent, all widths would built and mapped to
+# default values.
+# IMPORTANT : Currently "shape" property only supports numbers between 434 and 664 (inclusive),
+#             while "menu" only supports integers between 1 and 9 (inclusive).
+#             The "shape" parameter specifies the unit width, measured in 1/1000 em. The glyphs'
+#             width are equal to, or a simple multiple of the unit width.
+#             If you decide to use custom widths you have to define all the widths you plan to use,
+#             otherwise they will not be built.
+
+[buildPlans.Codevka.widths.Extended]
+shape = 600
+menu  = 7
+css   = "expanded"
+
+# End width section
+###################################################################################################
