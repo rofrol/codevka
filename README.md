@@ -1,14 +1,12 @@
-# Iosevka Rofrol
+# Codevka
 
-My customization of <https://github.com/Iosevka-Mayukai/Iosevka-Mayukai> font.
+My customization of [Iosevka font](https://github.com/be5invis/Iosevka).
 
 - No ligatures, no italics, no bold.
 - Nerd font patched. Needed for vscode. Otherwise you can fallback to <https://github.com/ryanoasis/nerd-fonts/releases/latest/download/NerdFontsSymbolsOnly.tar.xz>.
 - All icons with `--complete`.
-- Book for terminal, SemiLight for vscode
-
-> The variant Iosevka Term is designed to better support terminals and the variant Iosevka Fixed omits the ligatures. <https://en.wikipedia.org/wiki/Iosevka>
-
+- weights: Regular for terminal, SemiLight for vscode
+- widths: Extended to match wide characters of Source Code Pro
 ![](screenshot.png)
 
 ## Naming
@@ -16,6 +14,8 @@ My customization of <https://github.com/Iosevka-Mayukai/Iosevka-Mayukai> font.
 If your font name in private-build-plans.toml contains string `SourceCode`, it will be replaced with `SauceCode`.
 
 ## spacing: term vs fixed
+
+> The variant Iosevka Term is designed to better support terminals and the variant Iosevka Fixed omits the ligatures. <https://en.wikipedia.org/wiki/Iosevka>
 
 Terminal (“Term”)：A narrower variant focusing terminal uses. Arrows and geometric symbols will be narrow to follow typical terminal usages.
 
@@ -25,6 +25,7 @@ Fixed: Exact monospace font without ligatures and wide glyphs. Since some enviro
 
 ## Other fonts
 
+- <https://github.com/Iosevka-Mayukai/Iosevka-Mayukai>
 - <https://github.com/saumyajyoti/MiosevkaNerdFont>
 - <https://github.com/protesilaos/aporetic>
 
@@ -55,11 +56,15 @@ rm FontPatcher.zip
 cd ..
 ```
 
-`./reinstall-mayukai-serif-term.sh`
+`./reinstall-codevka.sh`
 
 or
 
-`watchexec -e toml,sh -c -r ./reinstall-mayukai-serif-term.sh`
+`watchexec -e toml,sh -c -r ./reinstall-codevka.sh`
+
+## Ghostty
+
+`font-family = Codevka Nerd Font`
 
 ## Links
 
