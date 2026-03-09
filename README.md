@@ -55,7 +55,7 @@ cd ..
 curl -OJNL https://github.com/ryanoasis/nerd-fonts/releases/latest/download/FontPatcher.zip
 unzip FontPatcher.zip -d FontPatcher
 rm FontPatcher.zip
-cd ..
+cd ../..
 ```
 
 `./reinstall-codevka.sh`
