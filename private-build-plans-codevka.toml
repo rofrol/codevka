@@ -41,9 +41,9 @@ sb = 80 # (varies, 60 for Regular) Width of common side-bearings. https://www.ty
 [buildPlans.Codevka.variants.design]
 six = "open-contour"
 nine = "open-contour"
-capital-c = "unilateral-inward-serifed"
+capital-c = "unilateral-serifed"
 capital-e = "serifless"
-c = "unilateral-inward-serifed"
+c = "unilateral-serifed"
 e = "rounded"
 f = "flat-hook-serifless"
 m = "short-leg-serifless"
