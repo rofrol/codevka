@@ -39,6 +39,8 @@ sb = 80 # (varies, 60 for Regular) Width of common side-bearings. https://www.ty
 
 # Optional; Configure single character's variant
 [buildPlans.Codevka.variants.design]
+c = "unilateral-serifed"
+e = "rounded"
 f = "flat-hook-serifless"
 m = "short-leg-serifless"
 t = "flat-hook-short-neck"
