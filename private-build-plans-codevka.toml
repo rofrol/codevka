@@ -39,13 +39,15 @@ sb = 80 # (varies, 60 for Regular) Width of common side-bearings. https://www.ty
 
 # Optional; Configure single character's variant
 [buildPlans.Codevka.variants.design]
-c = "unilateral-serifed"
+six = "open-contour"
+nine = "open-contour"
+capital-c = "unilateral-inward-serifed"
+capital-e = "serifless"
+c = "unilateral-inward-serifed"
 e = "rounded"
 f = "flat-hook-serifless"
 m = "short-leg-serifless"
 t = "flat-hook-short-neck"
-six = "open-contour"
-nine = "open-contour"
 
 # End variant section
 ###################################################################################################
