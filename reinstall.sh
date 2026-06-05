@@ -14,15 +14,15 @@ cd ${DIR}/vendor/Iosevka
 npm run build -- ttf-unhinted::${family}
 cp "${DIR}/vendor/Iosevka/dist/${family}/TTF-Unhinted/${file_orig}" ${DIR}/
 cd ${DIR}/vendor/FontPatcher
-#
-## Test with `ghostty +list-fonts` or `kitty +list-fonts --psnames`
-## --makegroups needed to have Postscript name https://github.com/ryanoasis/nerd-fonts/issues/579#issuecomment-1441612101
-## Postscript name may be needed for kitty when disabling ligatures with -liga
-## https://github.com/kovidgoyal/kitty/issues/2738#issuecomment-854384969
-fontforge -script font-patcher --complete "${DIR}/vendor/Iosevka/dist/${family}/TTF-Unhinted/${file_orig}"
-cp "$file" ${DIR}/
+##--name "${family} NF ${variant}"
+## makegroups is choosing how font is named. used bc error: name too long
+## https://github.com/ryanoasis/nerd-fonts/wiki/ScriptOptions
+## https://github.com/ryanoasis/nerd-fonts/discussions/1754
+# --dry
+fontforge -script font-patcher --complete --debug 2 --makegroups 4 "${DIR}/vendor/Iosevka/dist/${family}/TTF-Unhinted/${file_orig}"
 
-uv run ${DIR}/fix-mono-font.py ${DIR}/"$file"
+mv "$file" ${DIR}/
+
+uv run ${DIR}/fpfix.py ${DIR}/"$file"
 [ -f "${HOME}/Library/Fonts/$file" ] && rm "${HOME}/Library/Fonts/$file"
 open -a Font\ Book "$DIR/$file"
-rm "$file"
