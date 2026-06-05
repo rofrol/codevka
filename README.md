@@ -68,6 +68,11 @@ or
 
 `font-family = Codevka Nerd Font`
 
+## TODO
+
+- [ ] https://fontforge.org/docs/ui/dialogs/problems.html
+- [ ] generate-font-image-previews.sh and other https://github.com/ryanoasis/nerd-fonts/blob/master/bin/scripts/README.md
+
 ## Links
 
 - <https://lambdaland.org/posts/2022-08-01_a_new_font/>
