@@ -23,8 +23,8 @@ from fontTools.varLib import instancer
 
 
 def patch_reddit_mono():
-    input_path = "./RedditMono[wght].ttf"
-    output_path = "./RedditMono[wght]_switched_variants.ttf"
+    input_path = "RedditMono[wght].ttf"
+    output_path = "RedditMono[wght]_customized.ttf"
 
     if not os.path.exists(input_path):
         print(f"Error: {input_path} not found in the current directory.")
