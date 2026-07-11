@@ -21,8 +21,11 @@ import os
 from fontTools.ttLib import TTFont
 from fontTools.varLib import instancer
 
+wght = 450
+
 
 def patch_reddit_mono():
+    global wght
     input_path = "RedditMono[wght].ttf"
     output_path = "RedditMono[wght]_customized.ttf"
 
@@ -30,9 +33,9 @@ def patch_reddit_mono():
         print(f"Error: {input_path} not found in the current directory.")
         return
 
-    print("Step 1: Shifting the default wght axis to 450...")
+    print(f"Step 1: Shifting the default wght axis to {wght}...")
     font = TTFont(input_path)
-    font = instancer.instantiateVariableFont(font, {"wght": (200, 450, 900)})
+    font = instancer.instantiateVariableFont(font, {"wght": (200, wght, 900)})
 
     print("Step 2: Analyzing GSUB and backing character variants into defaults...")
     features_to_bake = {"cv01", "cv03", "cv04", "cv07", "cv09", "cv11", "cv15"}
@@ -99,8 +102,10 @@ def patch_reddit_mono():
     if "fvar" in font:
         for instance in font["fvar"].instances:
             if instance.coordinates.get("wght") == 400:
-                instance.coordinates["wght"] = 450
-                print("  -> Updated fvar table instance coordinates from 400 to 450.")
+                instance.coordinates["wght"] = wght
+                print(
+                    f"  -> Updated fvar table instance coordinates from 400 to {wght}."
+                )
 
     font.save(output_path)
     font.close()
