@@ -10,7 +10,7 @@ https://fontgauntlet.com/
 https://github.com/martinus/programming-font-test-pattern
 
 Type Yourself:
-Changed variants: cv01 a, cv03 d, cv04 g, cv07 p, cv09 q, cv11 u, cv15 l
+Changed variants: ss02 0, ss07 69
 o0O s5S 9gq z2Z !|l1Iij {([|])} .,;: ``''""
 a@#* vVuUwW <>;^°=-~ öÖüÜäÄßµ \/\/ -- == __
 abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ
@@ -22,15 +22,17 @@ import os
 from fontTools.ttLib import TTFont
 from fontTools.varLib import instancer
 
-wght = 450
-input_path = "RedditMono[wght].ttf"
-output_path = "RedditMono[wght]_customized.ttf"
+wght = 550
+input_path = "VictorMono-VariableFont_wght.ttf"
+output_path = "VictorMono-VariableFont_wght_customized.ttf"
+features_to_bake = {"ss02", "ss07"}
 
 
 def patch_font():
     global wght
     global input_path
     global output_path
+    global features_to_bake
 
     if not os.path.exists(input_path):
         print(f"Error: {input_path} not found in the current directory.")
@@ -41,7 +43,6 @@ def patch_font():
     font = instancer.instantiateVariableFont(font, {"wght": (200, wght, 900)})
 
     print("Step 2: Analyzing GSUB and backing character variants into defaults...")
-    features_to_bake = {"cv01", "cv03", "cv04", "cv07", "cv09", "cv11", "cv15"}
 
     if "GSUB" in font:
         gsub = font["GSUB"].table
