@@ -1,47 +1,37 @@
-#!/usr/bin/env -S uv run --script
-# /// script
-# requires-python = ">=3.11"
-# dependencies = ["fonttools"]
-# ///
-
-r"""
-https://fontdrop.info/
-https://fontgauntlet.com/
-https://github.com/martinus/programming-font-test-pattern
-
-Type Yourself:
-Changed variants: cv01 a, cv03 d, cv04 g, cv07 p, cv09 q, cv11 u, cv15 l
-o0O s5S 9gq z2Z !|l1Iij {([|])} .,;: ``''""
-a@#* vVuUwW <>;^°=-~ öÖüÜäÄßµ \/\/ -- == __
-abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ
-0123456789 &-+@ for (int i=0; i<=j; ++i) {}
-Polish diacritics: ąćęłńóśźż
-"""
-
 import os
 from fontTools.ttLib import TTFont
 from fontTools.varLib import instancer
 
-wght = 450
-input_path = "RedditMono[wght].ttf"
-output_path = "RedditMono[wght]_customized.ttf"
 
-
-def patch_font():
-    global wght
-    global input_path
-    global output_path
+def patch_font(input_path, output_path, wght, features_to_bake):
+    """
+    input_path: path to the source variable font (.ttf)
+    output_path: path to write the patched font to
+    wght: new default wght value (int)
+    features_to_bake: iterable of OpenType feature tags to bake as default,
+        e.g. {"ss02", "ss07"}
+    """
+    features_to_bake = set(features_to_bake)
 
     if not os.path.exists(input_path):
-        print(f"Error: {input_path} not found in the current directory.")
-        return
+        print(f"Error: {input_path} not found.")
+        return False
+
+    font = TTFont(input_path)
+
+    # --- Step 0: Read the font's real wght axis range instead of guessing it ---
+    fvar = font["fvar"]
+    wght_axis = next(a for a in fvar.axes if a.axisTag == "wght")
+    axis_min, axis_max = wght_axis.minValue, wght_axis.maxValue
+    old_default = wght_axis.defaultValue
+    print(
+        f"Step 0: Detected wght axis: min={axis_min}, default={old_default}, max={axis_max}"
+    )
 
     print(f"Step 1: Shifting the default wght axis to {wght}...")
-    font = TTFont(input_path)
-    font = instancer.instantiateVariableFont(font, {"wght": (200, wght, 900)})
+    font = instancer.instantiateVariableFont(font, {"wght": (axis_min, wght, axis_max)})
 
     print("Step 2: Analyzing GSUB and backing character variants into defaults...")
-    features_to_bake = {"cv01", "cv03", "cv04", "cv07", "cv09", "cv11", "cv15"}
 
     if "GSUB" in font:
         gsub = font["GSUB"].table
@@ -50,10 +40,10 @@ def patch_font():
         # Store original forward mappings (original_glyph_name -> alternative_glyph_name)
         forward_mappings = {}
 
-        # Track which lookups belong to our target cvXX features so we can invert them later
+        # Track which lookups belong to our target features so we can invert them later
         target_lookups = set()
 
-        # 1. Identify and extract mappings for the requested cvXX tags
+        # 1. Identify and extract mappings for the requested feature tags
         for feature_record in gsub.FeatureList.FeatureRecord:
             if feature_record.FeatureTag in features_to_bake:
                 feature = feature_record.Feature
@@ -77,9 +67,9 @@ def patch_font():
                     )
 
             print(
-                "Step 3: Inverting GSUB lookup tables to make cvXX toggles reverse the effect..."
+                "Step 3: Inverting GSUB lookup tables to make feature toggles reverse the effect..."
             )
-            # 3. Invert the GSUB lookup tables for targeted cvXX features.
+            # 3. Invert the GSUB lookup tables for targeted features.
             # Instead of 'Replace Default with Alternate', it becomes 'Replace Alternate with Default'.
             for lookup_idx in target_lookups:
                 lookup = gsub.LookupList.Lookup[lookup_idx]
@@ -96,7 +86,7 @@ def patch_font():
             print("  -> GSUB substitution rules successfully reversed.")
         else:
             print(
-                "  Warning: No substitution rules for the specified cvXX features were found in the GSUB table."
+                "  Warning: No substitution rules for the specified features were found in the GSUB table."
             )
     else:
         print("  Error: Font does not contain a GSUB table.")
@@ -104,16 +94,30 @@ def patch_font():
     print("Step 4: Aligning fvar table named instances to the new default...")
     if "fvar" in font:
         for instance in font["fvar"].instances:
-            if instance.coordinates.get("wght") == 400:
+            if instance.coordinates.get("wght") == old_default:
                 instance.coordinates["wght"] = wght
                 print(
-                    f"  -> Updated fvar table instance coordinates from 400 to {wght}."
+                    f"  -> Updated fvar instance coordinates from {old_default} to {wght}."
                 )
+
+    print(
+        "Step 5: Updating OS/2.usWeightClass so non-variable-aware apps pick it up..."
+    )
+    if "OS/2" in font:
+        old_weight_class = font["OS/2"].usWeightClass
+        font["OS/2"].usWeightClass = wght
+        print(f"  -> Updated OS/2.usWeightClass from {old_weight_class} to {wght}.")
+
+    print("Step 6: Checking STAT table for a stale default AxisValue...")
+    if "STAT" in font and font["STAT"].table.AxisValueArray:
+        for av in font["STAT"].table.AxisValueArray.AxisValue:
+            # Format 1/3 AxisValue records carry a single .Value we care about here.
+            value = getattr(av, "Value", None)
+            if value == old_default:
+                av.Value = wght
+                print(f"  -> Updated STAT AxisValue from {old_default} to {wght}.")
 
     font.save(output_path)
     font.close()
     print(f"\nSuccess! Generated file: {output_path}")
-
-
-if __name__ == "__main__":
-    patch_font()
+    return True
